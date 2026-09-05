@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  }
+  body {
+    @apply bg-ink-50 text-ink-900 dark:bg-ink-950 dark:text-ink-100;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+  * {
+    @apply border-ink-200 dark:border-ink-800;
+  }
+  ::selection {
+    @apply bg-brand-500/25;
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-ink-200/80 bg-white shadow-card dark:border-ink-800/80 dark:bg-ink-900;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-primary {
+    @apply btn bg-ink-900 px-4 py-2.5 text-sm text-white hover:bg-ink-800 dark:bg-white dark:text-ink-900 dark:hover:bg-ink-100;
+  }
+  .btn-secondary {
+    @apply btn border border-ink-200 bg-white px-4 py-2.5 text-sm text-ink-700 hover:bg-ink-50 dark:border-ink-700 dark:bg-ink-900 dark:text-ink-200 dark:hover:bg-ink-800;
+  }
+  .btn-ghost {
+    @apply btn px-3 py-2 text-sm text-ink-600 hover:bg-ink-100 hover:text-ink-900 dark:text-ink-400 dark:hover:bg-ink-800 dark:hover:text-ink-100;
+  }
+  .btn-accent {
+    @apply btn bg-brand-600 px-4 py-2.5 text-sm text-white hover:bg-brand-700;
+  }
+  .input {
+    @apply w-full rounded-xl border border-ink-200 bg-white px-3.5 py-2.5 text-sm text-ink-900 placeholder:text-ink-400 transition-colors focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 dark:border-ink-700 dark:bg-ink-900 dark:text-ink-100 dark:placeholder:text-ink-500;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-ink-700 dark:text-ink-300;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium;
+  }
+
+  /*
+   * Category pill — dark slate background with a coloured underline that
+   * wraps around only the bottom half of the pill.
+   * Uses a pseudo-element with a gradient mask to colour only the lower border.
+   */
+  .cat-pill {
+    --cat-accent: #64748b;
+    --cat-accent-width: 2px;
+    position: relative;
+    @apply rounded-full bg-ink-700 text-white text-sm font-medium px-3.5 py-1.5 border border-ink-600/50 transition-all duration-200 dark:bg-ink-700 dark:border-ink-600/60;
+  }
+  .cat-pill:hover {
+    @apply bg-ink-600 dark:bg-ink-600;
+    --cat-accent-width: 2.5px;
+  }
+  .cat-pill[data-active="true"] {
+    @apply bg-ink-600 dark:bg-ink-600;
+    --cat-accent-width: 3px;
+  }
+  /* Bottom-half underline: a border on the pseudo that only shows on the
+     lower half via a radial/linear clip. We use an absolutely positioned
+     element with a border-bottom + border-radius that wraps the curve. */
+  .cat-pill::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 9999px;
+    border: var(--cat-accent-width) solid var(--cat-accent);
+    /* Mask to show only the bottom ~55% of the ring */
+    -webkit-mask: linear-gradient(to bottom, transparent 42%, black 42%);
+    mask: linear-gradient(to bottom, transparent 42%, black 42%);
+    pointer-events: none;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, border-width 0.2s ease;
+  }
+  .cat-pill:hover::after {
+    opacity: 1;
+  }
+  .cat-pill[data-active="true"]::after {
+    opacity: 1;
+  }
+
+  /* Compact statement card header metadata row */
+  .meta-badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-ink-300 dark:bg-ink-700;
+}
+::-webkit-scrollbar-track { background: transparent; }
